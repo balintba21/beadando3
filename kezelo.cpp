@@ -15,7 +15,7 @@ P::P(int meret,int XX,int YY){
     nyertes=' ';
     gout.open(XX,YY);
     Ablak ablak(XX,YY,tabla);
-    ablak.event_loop(XX, YY);
+    kor=0;
 }
 void P::uj(int x, int y,char c){
     if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) cout << "Kilooog!! " << endl;
@@ -107,8 +107,15 @@ char P::jatek(int XX,int YY){
         }*/
         Ablak ablak(XX,YY,tabla);
         K ujhely=ablak.event_loop(XX, YY);
-        tabla[ujhely._x][ujhely._y]='y';
-        cout << "Kirajzolva" << endl;
+        if(tabla[ujhely._x][ujhely._y]==' '){
+            kor++;
+            if(kor%2==0){
+                tabla[ujhely._x][ujhely._y]='y';
+            }
+            else{
+                tabla[ujhely._x][ujhely._y]='x';
+            }
+        }
     }
     for(int j=0;j<tabla[0].size();j++){
         for(int i=0;i<tabla.size();i++){

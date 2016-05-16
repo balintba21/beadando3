@@ -8,10 +8,9 @@
 using namespace genv;
 using namespace std;
 
-void Ablak::helyem(){
-    //Átírni, mert ez így csúnya!
-    K koord(1,2);
-    valasz=koord;
+void Ablak::helyem(K hely){
+    cout << hely._x << " : " << hely._y;
+    valasz=hely;
 }
 
 K Ablak::event_loop(int XX, int YY){
@@ -75,7 +74,8 @@ Ablak::Ablak(int XX,int YY,vector<vector<char>> tabla){
             jel=tabla[i][j];
             x=10+i*(meret+2);
             y=10+j*(meret+2);
-            kocka = new lambdaButton(x,y,meret,meret,jel,gomb_szin,[&](){this->helyem();});
+            K hely(i,j);
+            kocka = new lambdaButton(x,y,meret,meret,jel,gomb_szin,[&,hely](){this->helyem(hely);});
             buttons.push_back(kocka);
         }
     }

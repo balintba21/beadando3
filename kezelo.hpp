@@ -13,6 +13,7 @@ struct P{
     void uj(int x, int y,char c);
     bool allas();
     char jatek(int XX,int YY);
+    int kor;
 };
 
 #endif
