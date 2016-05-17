@@ -15,11 +15,9 @@ struct Ablak{
     vector<Button*> buttons;
     lambdaButton * kocka;
     K valasz;
-
     void helyem(K hely);
     K event_loop(int XX, int YY);
-    Ablak(int XX,int YY,vector<vector<char>> tabla);
-    Ablak(int XX,int YY,vector<vector<string>> menutomb);
+    //Ablak(int XX,int YY);
 };
 
 #endif

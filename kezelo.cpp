@@ -13,7 +13,6 @@ P::P(int meret,int XX,int YY) : meret(XX,YY){
     }
     nyertes=' ';
     gout.open(XX,YY);
-    Ablak ablak(XX,YY,tabla);
     kor=0;
 }
 void P::uj(int x, int y,char c){
@@ -72,8 +71,8 @@ void P::menu(){
     menutomb.push_back(sor);
     K ujhely(-1,-1);
     while(ujhely._y!=2){
-        Ablak ablak(meret._x,meret._y,menutomb);
-        ujhely=ablak.event_loop(meret._x,meret._y);
+        Menu menu(meret._x,meret._y,menutomb);
+        ujhely=menu.event_loop(meret._x,meret._y);
         if(ujhely._y==0){
             nyertes=jatek();
             for(int i=0;i<tabla.size();i++){
@@ -95,6 +94,9 @@ char P::jatek(){
     int x,y;
     K ujhely(-1,0);
     while(allas() && ujhely._y!=-1){
+        string uzenet="A";
+        if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
+        uzenet+="karakter kovetkezik.";
         /*
         for(int j=0;j<tabla[0].size();j++){
             for(int i=0;i<tabla.size();i++){
@@ -132,8 +134,8 @@ char P::jatek(){
                 }
             }
         }*/
-        Ablak ablak(meret._x,meret._y,tabla);
-        ujhely=ablak.event_loop(meret._x,meret._y);
+        Jatek jatek(meret._x,meret._y,tabla,uzenet);
+        ujhely=jatek.event_loop(meret._x,meret._y);
         if(tabla[ujhely._x][ujhely._y]==' '){
             kor++;
             if(kor%2==0){
