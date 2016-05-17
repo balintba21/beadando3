@@ -19,6 +19,7 @@ struct Ablak{
     void helyem(K hely);
     K event_loop(int XX, int YY);
     Ablak(int XX,int YY,vector<vector<char>> tabla);
+    Ablak(int XX,int YY,vector<vector<string>> menutomb);
 };
 
 #endif

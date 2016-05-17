@@ -1,10 +1,9 @@
 #include "graphics.hpp"
 #include "kezelo.hpp"
-#include "Ablak.hpp"
 
 using namespace genv;
 
-P::P(int meret,int XX,int YY){
+P::P(int meret,int XX,int YY) : meret(XX,YY){
     vector<char> sor;
     for(int i=0;i<meret;i++){
         sor.push_back(' ');
@@ -68,15 +67,43 @@ bool P::allas(){
         return true;
     }
 }
-char P::jatek(int XX,int YY){
+void P::menu(){
+    vector<string> sor={"Uj jatek","Sugo","Kilepes"};
+    menutomb.push_back(sor);
+    K ujhely(-1,-1);
+    while(ujhely._y!=2){
+        Ablak ablak(meret._x,meret._y,menutomb);
+        ujhely=ablak.event_loop(meret._x,meret._y);
+        if(ujhely._y==0){
+            nyertes=jatek();
+            for(int i=0;i<tabla.size();i++){
+                for(int j=0;j<tabla[0].size();j++){
+                    tabla[i][j]=' ';
+                }
+            }
+        }
+        else if(ujhely._y==1){
+            cout << "Sugoo" << endl;
+        }
+        else if(ujhely._y!=2){
+            ujhely._y=2;//Esc lenyomaskor
+        }
+    }
+}
+
+char P::jatek(){
     int x,y;
-    while(allas()){
+    K ujhely(-1,0);
+    while(allas() && ujhely._y!=-1){
+        /*
         for(int j=0;j<tabla[0].size();j++){
             for(int i=0;i<tabla.size();i++){
                 cout << tabla[i][j] << ", ";
             }
             cout << endl;
-        }/*
+        }
+        */
+        /*
         cin >> x >> y;
         if(x<tabla.size() && x>=0 && y<tabla.size() && y>=0){
             uj(x,y,'y');
@@ -105,24 +132,25 @@ char P::jatek(int XX,int YY){
                 }
             }
         }*/
-        Ablak ablak(XX,YY,tabla);
-        K ujhely=ablak.event_loop(XX, YY);
+        Ablak ablak(meret._x,meret._y,tabla);
+        ujhely=ablak.event_loop(meret._x,meret._y);
         if(tabla[ujhely._x][ujhely._y]==' '){
             kor++;
             if(kor%2==0){
-                tabla[ujhely._x][ujhely._y]='y';
+                tabla[ujhely._x][ujhely._y]='O';
             }
             else{
-                tabla[ujhely._x][ujhely._y]='x';
+                tabla[ujhely._x][ujhely._y]='X';
             }
         }
     }
+    /*
     for(int j=0;j<tabla[0].size();j++){
         for(int i=0;i<tabla.size();i++){
             cout << tabla[i][j] << ", ";
         }
         cout << endl;
-    }
+    }*/
     return nyertes;
 }
 
