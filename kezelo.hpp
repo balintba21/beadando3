@@ -13,6 +13,7 @@ using namespace std;
 struct P{
     vector<vector<char>> tabla;
     vector<vector<string>> menutomb;
+    vector<K> nyero_helyek;
     char nyertes;
     int kor;
     K meret;

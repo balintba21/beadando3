@@ -4,12 +4,13 @@
 using namespace genv;
 
 P::P(int meret,int XX,int YY) : meret(XX,YY){
-    vector<char> sor;
+    vector<char> oszlop;
+    //vector<K> nyero_helyek;
     for(int i=0;i<meret;i++){
-        sor.push_back(' ');
+        oszlop.push_back(' ');
     }
     for(int i=0;i<meret;i++){
-        tabla.push_back(sor);
+        tabla.push_back(oszlop);
     }
     nyertes=' ';
     gout.open(XX,YY);
@@ -20,46 +21,71 @@ void P::uj(int x, int y,char c){
     if(tabla[x][y]==' ') tabla[x][y]=c;
 }
 bool P::allas(){
+    nyero_helyek.clear();
     int max=1,smax=1,omax=1,amax=1;
-    for(int j=0;j<tabla[0].size();j++){
-        for(int i=1;i<tabla.size();i++){
-            if(tabla[i-1][j]==tabla[i][j] && tabla[i][j]!=' ') smax++; else smax=1;
-            if(max<smax) max=smax ,nyertes=tabla[i][j];
-        }
-        smax=1;
-        for(int k=j;k<tabla.size()-1;k++){
-            if(tabla[k][k+j]==tabla[k+1][k+j+1] && tabla[k][k+j]!=' ') amax++; else amax=1;
-            if(max<amax) max=amax ,nyertes=tabla[k][k+j];
-        }
-        amax=1;
-        for(int k=j;k<tabla.size()-1;k++){
-            if(tabla[tabla.size()-1-k+j][k]==tabla[tabla.size()-1-k+j-1][k+1] && tabla[tabla.size()-1-k+j][k]!=' ') amax++; else amax=1;
-            if(max<amax) max=amax ,nyertes=tabla[tabla.size()-1-k+j][k];
-        }
-        amax=1;
-    }
-
-    for(int i=0;i<tabla.size();i++){
-        for(int j=1;j<tabla[i].size();j++){
+    for(int j=0;j<tabla[0].size();j++){/*
+        for(int i=0;i<tabla.size();i++){
             if(tabla[i][j-1]==tabla[i][j] && tabla[i][j]!=' ') omax++; else omax=1;
             if(max<omax) max=omax ,nyertes=tabla[i][j];
+            omax=1;
+        }*/
+        for(int i=0;i<tabla.size()-1;i++){
+            if(tabla[i][j]==tabla[i+1][j] && tabla[i][j]!=' ') smax++; else smax=1;
+            if(max<smax){
+                max=smax;
+            }
+            if(max>nyero_helyek.size()){
+                nyero_helyek.clear();
+                for(int nyer=0;nyer<max;nyer++){
+                    K ujk1(i+1-nyer,j);
+                    nyero_helyek.push_back(ujk1);
+                }
+            }
         }
-        omax=1;
+        smax=1;
 
-
-        for(int k=i;k<tabla.size()-1;k++){
-            if(tabla[k][k-i]==tabla[k+1][k-i+1] && tabla[k][k-i]!=' ') amax++; else amax=1;
-            if(max<amax) max=amax ,nyertes=tabla[k][k-i];
+        for(int k=0;k<tabla.size();k++){
+            for(int m=0;(j+m)<tabla[0].size()-1 && (k+m)<tabla.size()-1;m++){
+                if(tabla[j+m][k+m]==tabla[j+m+1][k+m+1] && tabla[j+m][k+m]!=' ') amax++; else amax=1;
+                if(max<amax){
+                    max=amax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk1(j+m+1-nyer,k+m+1-nyer);
+                        nyero_helyek.push_back(ujk1);
+                    }
+                }
+            }
+            amax=1;
+            for(int m=0;(j+m)<tabla[0].size()-1 && (k-m)>0;m++){
+                if(tabla[j+m][k-m]==tabla[j+m+1][k-m-1] && tabla[j+m][k-m]!=' ') amax++; else amax=1;
+                if(max<amax){
+                    max=amax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk1(j+m+1-nyer,k-m-1+nyer);
+                        nyero_helyek.push_back(ujk1);
+                    }
+                }
+            }
+            amax=1;
         }
-        amax=1;
-        for(int k=i;k>0;k--){
-            if(tabla[k][i-k]==tabla[k-1][i-k+1] && tabla[k][i-k]!=' ') amax++; else amax=1;
-            if(max<amax) max=amax ,nyertes=tabla[k][i-k];
-            //cout << "(" << k << ":" << i-k << ") " << amax << endl;
-        }
-        amax=1;
     }
+
     if(max>=5){
+        for(int ny=0;ny<nyero_helyek.size();ny++){
+            cout << nyero_helyek[ny]._x << " : " << nyero_helyek[ny]._y << endl;
+        }
+        if(nyero_helyek.size()>0){
+            for(int ny=0;ny<nyero_helyek.size();ny++){
+                tabla[nyero_helyek[ny]._x][nyero_helyek[ny]._y]='L';
+            }
+        }
+        cout << endl;
         return false;
     }
     else{
@@ -69,9 +95,9 @@ bool P::allas(){
 void P::menu(){
     vector<string> sor={"Uj jatek","Sugo","Kilepes"};
     menutomb.push_back(sor);
-    K ujhely(-1,-1);
-    while(ujhely._y!=2){
-        Menu menu(meret._x,meret._y,menutomb);
+    K ujhely(-2,-2);
+    while(nyertes!='k'){
+        /*Menu menu(meret._x,meret._y,menutomb);
         ujhely=menu.event_loop(meret._x,meret._y);
         if(ujhely._y==0){
             nyertes=jatek();
@@ -86,73 +112,60 @@ void P::menu(){
         }
         else if(ujhely._y!=2){
             ujhely._y=2;//Esc lenyomaskor
+        }*/
+        for(int i=0;i<tabla.size();i++){
+            for(int j=0;j<tabla[0].size();j++){
+                tabla[i][j]=' ';
+            }
         }
+        kor=0;
+        nyertes=jatek();
     }
 }
 
 char P::jatek(){
     int x,y;
     K ujhely(-1,0);
-    while(allas() && ujhely._y!=-1){
-        string uzenet="A";
-        if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
-        uzenet+="karakter kovetkezik.";
-        /*
-        for(int j=0;j<tabla[0].size();j++){
-            for(int i=0;i<tabla.size();i++){
-                cout << tabla[i][j] << ", ";
-            }
-            cout << endl;
+    bool fut=true;
+    while(fut && ujhely._y!=-1 && ujhely._y!=-2){
+        string uzenet;
+        if(kor==tabla.size()*tabla[0].size()){
+            uzenet="Megtelt a palya!";
+            Jatek jatek(meret._x,meret._y,tabla,uzenet);
+            ujhely=jatek.event_loop(meret._x,meret._y);
         }
-        */
-        /*
-        cin >> x >> y;
-        if(x<tabla.size() && x>=0 && y<tabla.size() && y>=0){
-            uj(x,y,'y');
-        }
-        else{
-            while(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0){
-                cout << "Hibas lepes! Lepj ujra:" << endl;
-                cin >> x >> y;
-            }
-        }
-        if(allas()){
-            for(int j=0;j<tabla[0].size();j++){
-                for(int i=0;i<tabla.size();i++){
-                    cout << tabla[i][j] << ", ";
-                }
-                cout << endl;
-            }
-            cin >> x >> y;
-            if(tabla[x][y]==' ' && x<tabla.size() && x>=0 && y<tabla.size() && y>=0){
-                uj(x,y,'x');
-            }
-            else{
-                while(tabla[x][y]!=' ' || x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0){
-                    cout << "Hibas lepes! Lepj ujra:" << endl;
-                    cin >> x >> y;
+        else if(allas()){
+            uzenet="A";
+            if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
+            uzenet+="karakter kovetkezik.";
+            Jatek jatek(meret._x,meret._y,tabla,uzenet);
+            ujhely=jatek.event_loop(meret._x,meret._y);
+            if(ujhely._x>=0 && ujhely._y>=0){
+                if(tabla[ujhely._x][ujhely._y]==' '){
+                    kor++;
+                    if(kor%2==0){
+                        tabla[ujhely._x][ujhely._y]='O';
+                    }
+                    else{
+                        tabla[ujhely._x][ujhely._y]='X';
+                    }
                 }
             }
-        }*/
-        Jatek jatek(meret._x,meret._y,tabla,uzenet);
-        ujhely=jatek.event_loop(meret._x,meret._y);
-        if(tabla[ujhely._x][ujhely._y]==' '){
-            kor++;
-            if(kor%2==0){
-                tabla[ujhely._x][ujhely._y]='O';
-            }
-            else{
-                tabla[ujhely._x][ujhely._y]='X';
-            }
+        }
+        else if(!allas()){
+            uzenet="A";
+            if(kor%2==0) uzenet+="z O "; else uzenet+="z X ";
+            uzenet+="karakter nyert.";
+            Jatek jatek(meret._x,meret._y,tabla,uzenet);
+            ujhely=jatek.event_loop(meret._x,meret._y);
         }
     }
-    /*
-    for(int j=0;j<tabla[0].size();j++){
-        for(int i=0;i<tabla.size();i++){
-            cout << tabla[i][j] << ", ";
-        }
-        cout << endl;
-    }*/
+    if(ujhely._y==-2){
+        nyertes=' ';
+    }
+    else if(ujhely._y==-1){
+        nyertes='k';
+    }
     return nyertes;
 }
 

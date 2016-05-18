@@ -10,6 +10,7 @@ class Jatek: public Ablak
     public:
     Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet);
     K event_loop(int XX, int YY);
+    void uj_jatek();
 };
 
 #endif // JATEK_HPP_INCLUDED

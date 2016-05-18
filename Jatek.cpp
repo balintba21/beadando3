@@ -8,6 +8,9 @@
 using namespace genv;
 using namespace std;
 
+void Jatek::uj_jatek(){
+}
+
 K Jatek::event_loop(int XX, int YY){
     gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
     for (size_t i=0;i<buttons.size();i++) {
@@ -91,12 +94,13 @@ K Jatek::event_loop(int XX, int YY){
 };
 
 Jatek::Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet){
-    gout.load_font("LiberationSans-Regular.ttf",(min(XX,YY)-(2*10)+2)/tabla.size()-4,true);
+    //gout.load_font("LiberationSans-Regular.ttf",24,true);
+            gout.load_font("LiberationSans-Regular.ttf",16,true);
     Szin gomb_keret(220,110,40);
     Szin gomb_aktiv(255,170,30);
     Szin gomb_felette(255,200,40);
     Szin gomb_hatter(255,255,90);
-    Szin gomb_betu(200,200,250);
+    Szin gomb_betu(200,90,0);
     Szin gomb_x(60,70,200);
     Szin gomb_o(255,25,0);
     vector<Szin> gomb_szin={gomb_keret,gomb_aktiv,gomb_felette,gomb_hatter,gomb_betu};
@@ -105,9 +109,7 @@ Jatek::Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet){
     Szin szoveg_keret(200,200,250);
     Szin szoveg_szoveg(205,205,255);
     vector<Szin> szoveg_szin={szoveg_hatter,szoveg_keret,szoveg_szoveg};
-
-    kiir1 = new StaticText(50,10,10+gout.twidth(uzenet)+10, 5+gout.cascent()+gout.cdescent()+5,uzenet,szoveg_szin);
-    widgets.push_back(kiir1);
+    int szoveg_magassag=5+gout.cascent()+gout.cdescent()+5;
     /*Szin szam_hatter(0,0,100);
     Szin szam_keret(200,200,250);
     Szin szam_szoveg(205,205,255);
@@ -123,23 +125,34 @@ Jatek::Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet){
     Szin csuszka_hatter(220,220,220);
     vector<Szin> csuszka_szin={csuszka_hatter};*/
 
-    int meret=(min(XX,YY)-(70+10))/tabla.size();
+    int meret=(min(XX,YY)-(30+szoveg_magassag))/tabla.size();
     int x,y;
     string jel="";
     float keret=meret/10;
+    int x_koz=10;
+    int y_koz=YY-tabla[0].size()*meret+10+szoveg_magassag;
 
-    int x_koz=XX-tabla.size()*meret;
-    int y_koz=YY-tabla[0].size()*meret+70;
+
+    kiir1 = new StaticText(10+(meret*tabla[0].size()-gout.twidth(uzenet))/2,10,10+gout.twidth(uzenet)+10,szoveg_magassag,uzenet,szoveg_szin);
+    widgets.push_back(kiir1);
+
+   // gout.load_font("LiberationSans-Regular.ttf",meret-2*keret,true);
+    float betumeret = meret-2*keret;
     for(int i=0;i<tabla.size();i++){
         for(int j=0;j<tabla[i].size();j++){
             jel=tabla[i][j];
             if(tabla[i][j]=='X') gomb_szin[4]=gomb_x; else if(tabla[i][j]=='O') gomb_szin[4]=gomb_o;
-            x=x_koz/2+i*(meret);
+            x=x_koz+i*(meret);
             y=y_koz/2+j*(meret);
             K hely(i,j);
-            kocka = new lambdaButton(x,y,meret,meret,keret,jel,gomb_szin,[&,hely](){this->helyem(hely);});
+            kocka = new lambdaButton(x,y,meret,meret,keret,"LiberationSans-Regular.ttf",betumeret,jel,gomb_szin,[&,hely](){this->helyem(hely);});
             buttons.push_back(kocka);
         }
     }
+    K hely(-2,-2);
+    //gout.load_font("LiberationSans-Regular.ttf",24,true);
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,"Uj jatek",gomb_szin,[&,hely](){this->helyem(hely);});
+    buttons.push_back(kocka);
+
 };
 

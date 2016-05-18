@@ -3,13 +3,15 @@
 
 using namespace genv;
 
-Button::Button(int x, int y, int size_x, int size_y,float keret, string felirat,vector<Szin> szin)
+Button::Button(int x, int y, int size_x, int size_y,float keret,string stilus,float betu_meret, string felirat,vector<Szin> szin)
     : Widget(x,y,size_x,size_y,szin)
     {
+        _stilus=stilus;
         _felirat = felirat;
         _felette=false;
         _lenyomva=false;
         _keret=keret;
+        _betu_meret=betu_meret;
     }
 std::string Button::adat(){
     return _felirat;
@@ -52,8 +54,8 @@ void Button::new_size_y(int ujszam){
 void Button::action(){
 }
 
-lambdaButton::lambdaButton(int x, int y, int size_x, int size_y,float keret, string felirat,vector<Szin> szin, std::function<void()> f)
-    : Button (x,y,size_x,size_y,keret,felirat,szin)
+lambdaButton::lambdaButton(int x, int y, int size_x, int size_y,float keret,string stilus,float betu_meret, string felirat,vector<Szin> szin, std::function<void()> f)
+    : Button (x,y,size_x,size_y,keret,stilus,betu_meret,felirat,szin)
 {
     _f=f;
 }
