@@ -4,6 +4,7 @@
 #include "Menu.hpp"
 #include "Jatek.hpp"
 #include "Koordinata.hpp"
+#include "Amobakocka.hpp"
 
 #include <iostream>
 #include <vector>
@@ -11,7 +12,7 @@
 using namespace std;
 
 struct P{
-    vector<vector<char>> tabla;
+    vector<vector<Amoba_kocka>> tabla;
     vector<vector<string>> menutomb;
     char nyertes;
     int kor;

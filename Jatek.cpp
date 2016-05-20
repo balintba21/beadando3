@@ -93,13 +93,14 @@ K Jatek::event_loop(int XX, int YY){
     return valasz;
 };
 
-Jatek::Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet){
+Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut){
     //gout.load_font("LiberationSans-Regular.ttf",24,true);
             gout.load_font("LiberationSans-Regular.ttf",16,true);
     Szin gomb_keret(220,110,40);
     Szin gomb_aktiv(255,170,30);
     Szin gomb_felette(255,200,40);
     Szin gomb_hatter(255,255,90);
+    Szin gomb_nyert(200,100,20);
     Szin gomb_betu(200,90,0);
     Szin gomb_x(60,70,200);
     Szin gomb_o(255,25,0);
@@ -140,9 +141,11 @@ Jatek::Jatek(int XX,int YY,vector<vector<char>> tabla,string uzenet){
     float betumeret = meret-2*keret;
     for(int i=0;i<tabla.size();i++){
         for(int j=0;j<tabla[i].size();j++){
-            jel=tabla[i][j];
+            jel=tabla[i][j]._ertek;
             bool engedely=false;
-            if(tabla[i][j]=='X') gomb_szin[4]=gomb_x; else if(tabla[i][j]=='O') gomb_szin[4]=gomb_o; else engedely=true;
+            if(tabla[i][j]._ertek=='X') gomb_szin[4]=gomb_x; else if(tabla[i][j]._ertek=='O') gomb_szin[4]=gomb_o; else engedely=true,gomb_szin[4]=gomb_betu;
+            if(!fut) engedely=false;
+            if(tabla[i][j]._nyert) gomb_szin[3]=gomb_nyert; else gomb_szin[3]=gomb_hatter;
             x=x_koz+i*(meret);
             y=y_koz/2+j*(meret);
             K hely(i,j);
