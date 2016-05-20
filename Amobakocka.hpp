@@ -6,8 +6,7 @@
 struct Amoba_kocka{
     char _ertek;
     bool _nyert;
-    Amoba_kocka(char ertek,bool nyert); //string allapot
-   // Amoba_kocka();
+    Amoba_kocka(char ertek,bool nyert);
 };
 
 #endif // AMOBAKOCKA_HPP
