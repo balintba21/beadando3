@@ -98,14 +98,14 @@ char P::jatek(){
     while(fut && ujhely._y!=-1 && ujhely._y!=-2){
         string uzenet;
         if(kor==tabla.size()*tabla[0].size()){
-            uzenet="Megtelt a palya!";
+            uzenet="Megtelt a pálya!";
             Jatek jatek(meret._x,meret._y,tabla,uzenet,false);
             ujhely=jatek.event_loop(meret._x,meret._y);
         }
         else if(allas(5)){
             uzenet="A";
             if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
-            uzenet+="karakter kovetkezik.";
+            uzenet+="karakter következik.";
             Jatek jatek(meret._x,meret._y,tabla,uzenet,true);
             ujhely=jatek.event_loop(meret._x,meret._y);
             if(ujhely._x>=0 && ujhely._y>=0){

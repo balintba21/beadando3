@@ -159,10 +159,10 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     }
     K hely1(-2,-2);
     //gout.load_font("LiberationSans-Regular.ttf",24,true);
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Uj jatek",gomb_szin,[&,hely1](){this->helyem(hely1);});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&,hely1](){this->helyem(hely1);});
     buttons.push_back(kocka);
 
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,110,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilepes",gomb_szin,[&](){this->kilepes();});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,110,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilépés",gomb_szin,[&](){this->kilepes();});
     buttons.push_back(kocka);
 
 };
