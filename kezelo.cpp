@@ -21,9 +21,7 @@ void P::uj(int x, int y,char c){
     if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) cout << "Kilooog!! " << endl;
     if(tabla[x][y]._ertek==' ') tabla[x][y]._ertek=c;
 }
-vector<K> P::allas(int nyero_minimum){
-    vector<K> nyero_helyek;
-    nyero_helyek.clear();
+bool P::allas(int nyero_minimum){
     int max=1,smax=1,omax=1,amax=1;
     for(int i=0;i<tabla.size();i++){
         for(int j=0;j<tabla[0].size();j++){
@@ -32,11 +30,9 @@ vector<K> P::allas(int nyero_minimum){
                 if(max<omax){
                     max=omax;
                 }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk(i,j+1-nyer);
-                        nyero_helyek.push_back(ujk);
+                if(omax>=nyero_minimum){
+                    for(int nyer=0;nyer<omax;nyer++){
+                        tabla[i][j+1-nyer]._nyert=true;
                     }
                 }
             }
@@ -45,11 +41,9 @@ vector<K> P::allas(int nyero_minimum){
                 if(max<smax){
                     max=smax;
                 }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk(ii+1-nyer,j);
-                        nyero_helyek.push_back(ujk);
+                if(smax>=nyero_minimum){
+                    for(int nyer=0;nyer<smax;nyer++){
+                        tabla[ii+1-nyer][j]._nyert=true;
                     }
                 }
             }
@@ -60,11 +54,9 @@ vector<K> P::allas(int nyero_minimum){
                 if(max<amax){
                     max=amax;
                 }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk(i+m+1-nyer,j+m+1-nyer);
-                        nyero_helyek.push_back(ujk);
+                if(amax>=nyero_minimum){
+                    for(int nyer=0;nyer<amax;nyer++){
+                        tabla[i+m+1-nyer][j+m+1-nyer]._nyert=true;
                     }
                 }
             }
@@ -74,11 +66,9 @@ vector<K> P::allas(int nyero_minimum){
                 if(max<amax){
                     max=amax;
                 }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk(i-m-1+nyer,j+m+1-nyer);
-                        nyero_helyek.push_back(ujk);
+                if(amax>=nyero_minimum){
+                    for(int nyer=0;nyer<amax;nyer++){
+                        tabla[i-m-1+nyer][j+m+1-nyer]._nyert=true;
                     }
                 }
             }
@@ -87,17 +77,7 @@ vector<K> P::allas(int nyero_minimum){
         omax=1;
     }
 
-    if(max>=nyero_minimum){
-        if(nyero_helyek.size()>0){
-            for(int ny=0;ny<nyero_helyek.size();ny++){
-                tabla[nyero_helyek[ny]._x][nyero_helyek[ny]._y]._nyert=true;
-            }
-        }
-    }
-    else{
-        nyero_helyek.clear();
-    }
-    return nyero_helyek;
+    if(max>=nyero_minimum) return false; else return true;
 }
 void P::menu(){
     vector<string> sor={"Uj jatek","Sugo","Kilepes"};
@@ -137,13 +117,12 @@ char P::jatek(){
     bool fut=true;
     while(fut && ujhely._y!=-1 && ujhely._y!=-2){
         string uzenet;
-        vector<K> nyero_helyek = allas(5);
         if(kor==tabla.size()*tabla[0].size()){
             uzenet="Megtelt a palya!";
             Jatek jatek(meret._x,meret._y,tabla,uzenet,false);
             ujhely=jatek.event_loop(meret._x,meret._y);
         }
-        else if(nyero_helyek.size()==0){
+        else if(allas(5)){
             uzenet="A";
             if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
             uzenet+="karakter kovetkezik.";
@@ -161,7 +140,7 @@ char P::jatek(){
                 }
             }
         }
-        else if(nyero_helyek.size()>0){
+        else if(!allas(5)){
             uzenet="A";
             if(kor%2==0) uzenet+="z O "; else uzenet+="z X ";
             uzenet+="karakter nyert.";

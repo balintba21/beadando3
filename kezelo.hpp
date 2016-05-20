@@ -20,7 +20,7 @@ struct P{
     P(int meret,int XX,int YY);
     void uj(int x, int y,char c);
     void menu();
-    vector<K> allas(int nyero_minimum);
+    bool allas(int nyero_minimum);
     char jatek();
 };
 
