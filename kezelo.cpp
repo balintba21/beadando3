@@ -1,6 +1,8 @@
 #include "graphics.hpp"
 #include "kezelo.hpp"
 
+#include <iostream>
+///-----------------------------------------------------
 using namespace genv;
 
 P::P(int meret,int XX,int YY) : meret(XX,YY){
@@ -9,12 +11,48 @@ P::P(int meret,int XX,int YY) : meret(XX,YY){
         Amoba_kocka amoba_negyzet(' ',false);
         oszlop.push_back(amoba_negyzet);
     }
+
+    vector<vector<Amoba_kocka>> v;
+    ifstream be("adatok.txt");
+    if(!be.good()){
+        ofstream ki("adatok.txt");
+        ki.close();
+    }
+    else{
+        K be_meret(0,0);
+        be >> be_meret._x >> be_meret._y >> ws;
+        if(be_meret._x==meret && be_meret._y==meret){
+            char c;
+            bool nyerte;
+            for(int i=0;i<meret;i++){
+                v.push_back(oszlop);
+            }
+            for(int i=0;i<meret && be.good();i++){
+                for(int j=0;j<meret && be.good();j++){
+                    be >> c >> nyerte >> ws;
+                    if(c=='-') c=' ';
+                    Amoba_kocka be_an(c,nyerte);
+                    v[i][j]=be_an;
+                }
+            }
+        }
+    }
+    be.close();
+
     for(int i=0;i<meret;i++){
         tabla.push_back(oszlop);
+    }
+    if(v.size()==meret && v[0].size()==meret){
+        for(int i=0;i<meret;i++){
+            for(int j=0;j<meret;j++){
+                tabla[i][j]=v[i][j];
+            }
+        }
     }
     nyertes=' ';
     gout.open(XX,YY);
     kor=0;
+
 }
 void P::uj(int x, int y,char c){
     if(tabla[x][y]._ertek==' ') tabla[x][y]._ertek=c;
@@ -79,6 +117,7 @@ bool P::allas(int nyero_minimum){
 }
 void P::futtatas(){
     while(nyertes!='k'){
+        nyertes=jatek();
         for(int i=0;i<tabla.size();i++){
             for(int j=0;j<tabla[0].size();j++){
                 tabla[i][j]._ertek=' ';
@@ -86,7 +125,6 @@ void P::futtatas(){
             }
         }
         kor=0;
-        nyertes=jatek();
     }
 }
 
@@ -126,6 +164,17 @@ char P::jatek(){
             Jatek jatek(meret._x,meret._y,tabla,uzenet,false);
             ujhely=jatek.event_loop(meret._x,meret._y);
         }
+        ofstream ki("adatok.txt");
+        ki << tabla.size() << " " << tabla[0].size() << endl;
+        char ertek=' ';
+        for(int i=0;i<tabla.size();i++){
+            for(int j=0;j<tabla[i].size();j++){
+                if(tabla[i][j]._ertek==' ') ertek='-'; else ertek=tabla[i][j]._ertek;
+                ki << ertek << " " << tabla[i][j]._nyert << " ";
+            }
+            ki << endl;
+        }
+        ki.close();
     }
     if(ujhely._y==-2){
         nyertes=' ';
