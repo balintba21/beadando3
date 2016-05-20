@@ -160,7 +160,6 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     K hely1(-2,-2);
     gomb_szin[4]=gomb_betu;
     gomb_szin[3]=gomb_hatter;
-    //gout.load_font("LiberationSans-Regular.ttf",24,true);
     kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&,hely1](){this->helyem(hely1);});
     buttons.push_back(kocka);
 
