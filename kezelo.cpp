@@ -20,7 +20,8 @@ void P::uj(int x, int y,char c){
     if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) cout << "Kilooog!! " << endl;
     if(tabla[x][y]==' ') tabla[x][y]=c;
 }
-bool P::allas(int nyeroszam){
+vector<K> P::allas(int nyero_minimum){
+    vector<K> nyero_helyek;
     nyero_helyek.clear();
     int max=1,smax=1,omax=1,amax=1;
     for(int i=0;i<tabla.size();i++){
@@ -38,7 +39,6 @@ bool P::allas(int nyeroszam){
                     }
                 }
             }
-
             for(int ii=0;ii<tabla.size()-1;ii++){
                 if(tabla[ii][j]==tabla[ii+1][j] && tabla[ii][j]!=' ') smax++; else smax=1;
                 if(max<smax){
@@ -86,17 +86,17 @@ bool P::allas(int nyeroszam){
         omax=1;
     }
 
-    if(max>=nyeroszam){
+    if(max>=nyero_minimum){
         if(nyero_helyek.size()>0){
             for(int ny=0;ny<nyero_helyek.size();ny++){
                 tabla[nyero_helyek[ny]._x][nyero_helyek[ny]._y]='L';
             }
         }
-        return false;
     }
     else{
-        return true;
+        nyero_helyek.clear();
     }
+    return nyero_helyek;
 }
 void P::menu(){
     vector<string> sor={"Uj jatek","Sugo","Kilepes"};
@@ -135,12 +135,13 @@ char P::jatek(){
     bool fut=true;
     while(fut && ujhely._y!=-1 && ujhely._y!=-2){
         string uzenet;
+        vector<K> nyero_helyek = allas(5);
         if(kor==tabla.size()*tabla[0].size()){
             uzenet="Megtelt a palya!";
             Jatek jatek(meret._x,meret._y,tabla,uzenet);
             ujhely=jatek.event_loop(meret._x,meret._y);
         }
-        else if(allas(5)){
+        else if(nyero_helyek.size()==0){
             uzenet="A";
             if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
             uzenet+="karakter kovetkezik.";
@@ -158,7 +159,7 @@ char P::jatek(){
                 }
             }
         }
-        else if(!allas(5)){
+        else if(nyero_helyek.size()>0){
             uzenet="A";
             if(kor%2==0) uzenet+="z O "; else uzenet+="z X ";
             uzenet+="karakter nyert.";
