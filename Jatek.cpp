@@ -8,10 +8,19 @@
 using namespace genv;
 using namespace std;
 
+void Jatek::helyem(K hely){
+    valasz=hely;
+}
+
 void Jatek::uj_jatek(){
+    _fut=false;
+    valasz._x=-2;
+    valasz._y=-2;
 }
 void Jatek::kilepes(){
     _fut=false;
+    valasz._x=-1;
+    valasz._y=-1;
 }
 int Jatek::magassag(int meret){
     int szovegmagassag=ceil(meret*0.90528)+floor(meret*0.21191);
@@ -131,7 +140,7 @@ K Jatek::event_loop(int XX, int YY){
         }
         gout << refresh;
     }
-    if(ev.keycode==key_escape || !_fut) valasz._y=-1;
+    if(ev.keycode==key_escape) valasz._y=-1;
     return valasz;
 };
 
@@ -194,7 +203,7 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     gomb_szin[4]=gomb_betu;
     gomb_szin[3]=gomb_hatter;
     keret=2;
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz,10+hossz(_betumeret[2],0.3182,"Új játék"),10+magassag(_betumeret[2])+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&,hely1](){this->helyem(hely1);});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz,10+hossz(_betumeret[2],0.3182,"Új játék"),10+magassag(_betumeret[2])+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&](){this->uj_jatek();});
     buttons.push_back(kocka);
     kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz+10+magassag(_betumeret[2])+10+10,10+hossz(_betumeret[2],0.364,"Kilépés"),10+magassag(_betumeret[2])+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilépés",gomb_szin,[&](){this->kilepes();});
     buttons.push_back(kocka);

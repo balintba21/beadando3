@@ -8,10 +8,6 @@
 using namespace genv;
 using namespace std;
 
-void Ablak::helyem(K hely){
-    valasz=hely;
-}
-
 K Ablak::event_loop(int XX, int YY){
     gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
     for (size_t i=0;i<buttons.size();i++) {

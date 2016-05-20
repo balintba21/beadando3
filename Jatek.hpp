@@ -14,6 +14,7 @@ class Jatek: public Ablak
 public:
     Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut);
     K event_loop(int XX, int YY);
+    void helyem(K hely);
     void uj_jatek();
     void kilepes();
     int magassag(int meret);
