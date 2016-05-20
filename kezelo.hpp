@@ -20,6 +20,7 @@ struct P{
     void uj(int x, int y,char c);
     void futtatas();
     bool allas(int nyero_minimum);
+    void fajlba_mentes(string fajlnev);
     char jatek();
 };
 
