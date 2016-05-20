@@ -10,6 +10,9 @@ using namespace std;
 
 void Jatek::uj_jatek(){
 }
+void Jatek::kilepes(){
+    _fut=false;
+}
 
 K Jatek::event_loop(int XX, int YY){
     gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
@@ -23,7 +26,7 @@ K Jatek::event_loop(int XX, int YY){
     event ev;
     bool esemeny=false;
     int focus = -1;
-    while(gin >> ev && ev.keycode!=key_escape && !esemeny){
+    while(gin >> ev && ev.keycode!=key_escape && !esemeny && _fut){
         for (size_t i=0;i<buttons.size();i++) {
             buttons[i]->handle(ev);
         }
@@ -89,13 +92,14 @@ K Jatek::event_loop(int XX, int YY){
         }
         gout << refresh;
     }
-    if(ev.keycode==key_escape) valasz._y=-1;
+    if(ev.keycode==key_escape || !_fut) valasz._y=-1;
     return valasz;
 };
 
 Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut){
+    _fut=true;
     //gout.load_font("LiberationSans-Regular.ttf",24,true);
-            gout.load_font("LiberationSans-Regular.ttf",16,true);
+    gout.load_font("LiberationSans-Regular.ttf",16,true);
     Szin gomb_keret(220,110,40);
     Szin gomb_aktiv(255,170,30);
     Szin gomb_felette(255,200,40);
@@ -153,9 +157,12 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
             buttons.push_back(kocka);
         }
     }
-    K hely(-2,-2);
+    K hely1(-2,-2);
     //gout.load_font("LiberationSans-Regular.ttf",24,true);
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Uj jatek",gomb_szin,[&,hely](){this->helyem(hely);});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,50,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Uj jatek",gomb_szin,[&,hely1](){this->helyem(hely1);});
+    buttons.push_back(kocka);
+
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,110,300,50,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilepes",gomb_szin,[&](){this->kilepes();});
     buttons.push_back(kocka);
 
 };
