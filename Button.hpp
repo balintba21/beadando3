@@ -10,11 +10,11 @@ using namespace std;
 class Button: public Widget
 {
     string _felirat, _stilus;
-    bool _felette,_lenyomva;
+    bool _felette,_lenyomva,_engedelyezve;
     float _keret;
     float _betu_meret;
 public:
-    Button(int x, int y, int size_x, int size_y,float keret,string stilus,float betu_meret,string felirat,vector<Szin> szin);
+    Button(int x, int y, int size_x, int size_y,float keret,bool engedelyezve, string stilus,float betu_meret,string felirat,vector<Szin> szin);
     virtual void draw();
     virtual void handle(genv::event ev);
     virtual void action();
@@ -27,7 +27,7 @@ public:
 class lambdaButton: public Button{
     function<void()> _f;
 public:
-    lambdaButton(int x, int y, int size_x, int size_y,float keret,string stilus,float betu_meret, string felirat,vector<Szin> szin, function<void()> f);
+    lambdaButton(int x, int y, int size_x, int size_y,float keret,string stilus,float betu_meret,bool engedelyezve,  string felirat,vector<Szin> szin, function<void()> f);
     virtual void action();
 };
 
