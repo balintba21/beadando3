@@ -5,7 +5,6 @@ using namespace genv;
 
 P::P(int meret,int XX,int YY) : meret(XX,YY){
     vector<Amoba_kocka> oszlop;
-    //vector<K> nyero_helyek;
     for(int i=0;i<meret;i++){
         Amoba_kocka ak(' ',false);
         oszlop.push_back(ak);
@@ -18,7 +17,7 @@ P::P(int meret,int XX,int YY) : meret(XX,YY){
     kor=0;
 }
 void P::uj(int x, int y,char c){
-    if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) cout << "Kilooog!! " << endl;
+    if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) //cout << "Kilooog!! " << endl;
     if(tabla[x][y]._ertek==' ') tabla[x][y]._ertek=c;
 }
 bool P::allas(int nyero_minimum){
@@ -79,27 +78,8 @@ bool P::allas(int nyero_minimum){
 
     if(max>=nyero_minimum) return false; else return true;
 }
-void P::menu(){
-    vector<string> sor={"Uj jatek","Sugo","Kilepes"};
-    menutomb.push_back(sor);
-    K ujhely(-2,-2);
+void P::futtatas(){
     while(nyertes!='k'){
-        /*Menu menu(meret._x,meret._y,menutomb);
-        ujhely=menu.event_loop(meret._x,meret._y);
-        if(ujhely._y==0){
-            nyertes=jatek();
-            for(int i=0;i<tabla.size();i++){
-                for(int j=0;j<tabla[0].size();j++){
-                    tabla[i][j]._ertek=' ';
-                }
-            }
-        }
-        else if(ujhely._y==1){
-            cout << "Sugoo" << endl;
-        }
-        else if(ujhely._y!=2){
-            ujhely._y=2;//Esc lenyomaskor
-        }*/
         for(int i=0;i<tabla.size();i++){
             for(int j=0;j<tabla[0].size();j++){
                 tabla[i][j]._ertek=' ';

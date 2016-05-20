@@ -3,6 +3,6 @@
 int main()
 {
     P palya(40,1000,700);
-    palya.menu();
+    palya.futtatas();
     return 0;
 }

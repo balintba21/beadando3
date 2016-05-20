@@ -13,13 +13,12 @@ using namespace std;
 
 struct P{
     vector<vector<Amoba_kocka>> tabla;
-    vector<vector<string>> menutomb;
     char nyertes;
     int kor;
     K meret;
     P(int meret,int XX,int YY);
     void uj(int x, int y,char c);
-    void menu();
+    void futtatas();
     bool allas(int nyero_minimum);
     char jatek();
 };
