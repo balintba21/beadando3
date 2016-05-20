@@ -18,6 +18,7 @@ public:
     int magassag(int meret);
     int hossz(int meret,float atlaghosz,string szoveg);
     float aranybecslo(int meret,string tipus,string szoveg);
+    int betumeret(int magassag);
 };
 
 #endif // JATEK_HPP_INCLUDED
