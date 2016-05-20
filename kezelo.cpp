@@ -43,6 +43,20 @@ bool P::allas(){
             }
         }
         smax=1;
+        for(int k=0;k<tabla[0].size()-1;k++){
+            if(tabla[j][k]==tabla[j][k+1] && tabla[j][k]!=' ') omax++; else omax=1;
+            if(max<omax){
+                max=omax;
+            }
+            if(max>nyero_helyek.size()){
+                nyero_helyek.clear();
+                for(int nyer=0;nyer<max;nyer++){
+                    K ujk1(j,k+1-nyer);
+                    nyero_helyek.push_back(ujk1);
+                }
+            }
+        }
+        omax=1;
 
         for(int k=0;k<tabla.size();k++){
             for(int m=0;(j+m)<tabla[0].size()-1 && (k+m)<tabla.size()-1;m++){
