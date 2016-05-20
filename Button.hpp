@@ -10,11 +10,13 @@ using namespace std;
 class Button: public Widget
 {
     string _felirat, _stilus;
-    bool _felette,_lenyomva,_engedelyezve;
+    bool _felette,_lenyomva;
     float _keret;
     float _betu_meret;
+protected:
+    bool _engedelyezve;
 public:
-    Button(int x, int y, int size_x, int size_y,float keret,bool engedelyezve, string stilus,float betu_meret,string felirat,vector<Szin> szin);
+    Button(int x, int y, int size_x, int size_y,float keret, string stilus,float betu_meret,bool engedelyezve,string felirat,vector<Szin> szin);
     virtual void draw();
     virtual void handle(genv::event ev);
     virtual void action();

@@ -10,5 +10,5 @@ struct K{
     bool operator==(K masik);
 };
 
-#endif // RGB_HPP
+#endif // KOORDINATA_HPP
 

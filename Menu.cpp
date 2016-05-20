@@ -35,7 +35,7 @@ Menu::Menu(int XX,int YY,vector<vector<string>> menutomb){
             x=x_koz/2+i*(x_meret+2);
             y=y_koz/2+j*(y_meret+2);
             K hely(i,j);
-            kocka = new lambdaButton(x,y,x_meret,y_meret,keret,"Stroke Dimension.ttf",y_meret-2*keret,felirat,gomb_szin,[&,hely](){this->helyem(hely);});
+            kocka = new lambdaButton(x,y,x_meret,y_meret,keret,"Stroke Dimension.ttf",y_meret-2*keret,true,felirat,gomb_szin,[&,hely](){this->helyem(hely);});
             buttons.push_back(kocka);
         }
     }
