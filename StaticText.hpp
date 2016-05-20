@@ -13,9 +13,7 @@ class StaticText: public Widget
 public:
     StaticText(int x, int y, int size_x, int size_y,string szoveg,vector<Szin> szin);
     virtual void draw();
-    string adat();/*
-    virtual void handle(genv::event ev);
-    void new_szoveg(string ujszoveg);*/
+    string adat();
 };
 
 #endif // StaticText_HPP_INCLUDED
