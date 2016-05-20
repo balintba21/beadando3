@@ -17,11 +17,9 @@ int Jatek::magassag(int meret){
     int szovegmagassag=ceil(meret*0.90528)+floor(meret*0.21191);
     return szovegmagassag;
 }
-int Jatek::betumeret(int dobozmagassag){
+int Jatek::betumeret(float dobozmagassag){
     int betu_meret=0;
-    for(;dobozmagassag>magassag(betu_meret);betu_meret++){
-        cout << dobozmagassag << " - " << magassag(betu_meret) << " : " << betu_meret << endl;
-    };
+    for(;dobozmagassag>magassag(betu_meret);betu_meret++);
     betu_meret--;
     return betu_meret;
 }
@@ -41,11 +39,11 @@ float Jatek::aranybecslo(int meret,string tipus,string szoveg){
 
 K Jatek::event_loop(int XX, int YY){
     gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
-    gout.load_font("LiberationSans-Regular.ttf",12,true);
+    gout.load_font("LiberationSans-Regular.ttf",_betumeret[1],true);
     for (size_t i=0;i<palya.size();i++) {
         palya[i]->draw();
     }
-    gout.load_font("LiberationSans-Regular.ttf",22,true);
+    gout.load_font("LiberationSans-Regular.ttf",_betumeret[0],true);
     for (size_t i=0;i<buttons.size();i++) {
         buttons[i]->draw();
     }
@@ -117,11 +115,11 @@ K Jatek::event_loop(int XX, int YY){
             widgets[focus]->handle(ev);
         }
         gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
-        gout.load_font("LiberationSans-Regular.ttf",12,true);
+        gout.load_font("LiberationSans-Regular.ttf",_betumeret[1],true);
         for (size_t i=0;i<palya.size();i++) {
             palya[i]->draw();
         }
-        gout.load_font("LiberationSans-Regular.ttf",22,true);
+        gout.load_font("LiberationSans-Regular.ttf",_betumeret[0],true);
         for (size_t i=0;i<buttons.size();i++) {
             buttons[i]->draw();
         }
@@ -139,9 +137,9 @@ K Jatek::event_loop(int XX, int YY){
 
 Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut){
     _fut=true;
-    double szovegmeret=22;
-    int szovegmagassag=magassag(szovegmeret);
-    int szoveghossz=hossz(szovegmeret,0.44,uzenet);
+    _betumeret={22,16,22};
+    int szovegmagassag=magassag(_betumeret[0]);
+    int szoveghossz=hossz(_betumeret[0],0.44,uzenet);
 
     Szin szoveg_hatter(222,120,30);
     Szin szoveg_keret(220,110,40);
@@ -153,7 +151,7 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
 
 
 
-    int meret=min((YY-(30+szoveg_magassag)),XX-(30+hossz(szovegmeret,0.3182,"Új játék")))/tabla.size();
+    int meret=min((YY-(30+szoveg_magassag)),XX-(30+hossz(_betumeret[2],0.3182,"Új játék")))/tabla.size();
     int x,y;
     string jel="";
     float keret=meret/10;
@@ -175,9 +173,7 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     Szin gomb_x(60,70,200);
     Szin gomb_o(255,25,0);
     vector<Szin> gomb_szin={gomb_keret,gomb_aktiv,gomb_felette,gomb_hatter,gomb_betu};
-
-    int betu_meret = betumeret(meret*8/10);
-    cout << "Bm: " << betu_meret <<endl;
+    _betumeret[1]=betumeret(meret)+1;
     for(int i=0;i<tabla.size();i++){
         for(int j=0;j<tabla[i].size();j++){
             jel=tabla[i][j]._ertek;
@@ -188,7 +184,7 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
             x=x_koz+i*(meret);
             y=y_koz+j*(meret);
             K hely(i,j);
-            kocka = new lambdaButton(x,y,meret,meret,keret,"LiberationSans-Regular.ttf",betu_meret,engedely,jel,gomb_szin,[&,hely](){this->helyem(hely);});
+            kocka = new lambdaButton(x,y,meret,meret,keret,"LiberationSans-Regular.ttf",_betumeret[1],engedely,jel,gomb_szin,[&,hely](){this->helyem(hely);});
             palya.push_back(kocka);
         }
     }
@@ -197,11 +193,10 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     K hely1(-2,-2);
     gomb_szin[4]=gomb_betu;
     gomb_szin[3]=gomb_hatter;
-    szovegmeret=22;
     keret=2;
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz,10+hossz(szovegmeret,0.3182,"Új játék"),10+magassag(szovegmeret)+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&,hely1](){this->helyem(hely1);});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz,10+hossz(_betumeret[2],0.3182,"Új játék"),10+magassag(_betumeret[2])+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Új játék",gomb_szin,[&,hely1](){this->helyem(hely1);});
     buttons.push_back(kocka);
-    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz+10+magassag(szovegmeret)+10+10,10+hossz(szovegmeret,0.364,"Kilépés"),10+magassag(szovegmeret)+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilépés",gomb_szin,[&](){this->kilepes();});
+    kocka = new lambdaButton(10+meret*tabla[0].size()+10,y_koz+10+magassag(_betumeret[2])+10+10,10+hossz(_betumeret[2],0.364,"Kilépés"),10+magassag(_betumeret[2])+10,keret,"LiberationSans-Regular.ttf",50-2*keret,true,"Kilépés",gomb_szin,[&](){this->kilepes();});
     buttons.push_back(kocka);
 };
 
