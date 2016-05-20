@@ -9,6 +9,7 @@ class Jatek: public Ablak
 {
     StaticText * kiir1;
     bool _fut;
+    vector<Button*> palya;
 public:
     Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut);
     K event_loop(int XX, int YY);
