@@ -1,8 +1,6 @@
 #include "Jatek.hpp"
 #include "graphics.hpp"
 
-#include <iostream>
-#include <cstdlib>
 #include <cmath>
 
 using namespace genv;

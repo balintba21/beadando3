@@ -6,8 +6,8 @@ using namespace genv;
 P::P(int meret,int XX,int YY) : meret(XX,YY){
     vector<Amoba_kocka> oszlop;
     for(int i=0;i<meret;i++){
-        Amoba_kocka ak(' ',false);
-        oszlop.push_back(ak);
+        Amoba_kocka amoba_negyzet(' ',false);
+        oszlop.push_back(amoba_negyzet);
     }
     for(int i=0;i<meret;i++){
         tabla.push_back(oszlop);
@@ -17,7 +17,6 @@ P::P(int meret,int XX,int YY) : meret(XX,YY){
     kor=0;
 }
 void P::uj(int x, int y,char c){
-    if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) //cout << "Kilooog!! " << endl;
     if(tabla[x][y]._ertek==' ') tabla[x][y]._ertek=c;
 }
 bool P::allas(int nyero_minimum){

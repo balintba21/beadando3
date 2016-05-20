@@ -6,8 +6,6 @@
 #include "Koordinata.hpp"
 
 #include <vector>
-#include <string>
-#include <fstream>
 
 struct Ablak{
     int _key=0,_key_db=0;

@@ -6,8 +6,8 @@
 #include "Koordinata.hpp"
 #include "Amobakocka.hpp"
 
-#include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 

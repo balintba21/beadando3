@@ -5,6 +5,8 @@
 #include "StaticText.hpp"
 #include "Amobakocka.hpp"
 
+#include <string>
+
 class Jatek: public Ablak
 {
     StaticText * kiir1;

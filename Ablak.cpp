@@ -1,8 +1,6 @@
 #include "Ablak.hpp"
 #include "graphics.hpp"
 
-#include <iostream>
-#include <cstdlib>
 #include <cmath>
 
 using namespace genv;
