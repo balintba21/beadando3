@@ -20,7 +20,7 @@ struct P{
     P(int meret,int XX,int YY);
     void uj(int x, int y,char c);
     void menu();
-    bool allas();
+    bool allas(int nyeroszam);
     char jatek();
 };
 

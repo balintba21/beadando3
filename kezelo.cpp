@@ -20,86 +20,78 @@ void P::uj(int x, int y,char c){
     if(x>tabla.size()-1 || x<0 || y>tabla.size()-1 || y<0) cout << "Kilooog!! " << endl;
     if(tabla[x][y]==' ') tabla[x][y]=c;
 }
-bool P::allas(){
+bool P::allas(int nyeroszam){
     nyero_helyek.clear();
     int max=1,smax=1,omax=1,amax=1;
-    for(int j=0;j<tabla[0].size();j++){/*
-        for(int i=0;i<tabla.size();i++){
-            if(tabla[i][j-1]==tabla[i][j] && tabla[i][j]!=' ') omax++; else omax=1;
-            if(max<omax) max=omax ,nyertes=tabla[i][j];
-            omax=1;
-        }*/
-        for(int i=0;i<tabla.size()-1;i++){
-            if(tabla[i][j]==tabla[i+1][j] && tabla[i][j]!=' ') smax++; else smax=1;
-            if(max<smax){
-                max=smax;
-            }
-            if(max>nyero_helyek.size()){
-                nyero_helyek.clear();
-                for(int nyer=0;nyer<max;nyer++){
-                    K ujk1(i+1-nyer,j);
-                    nyero_helyek.push_back(ujk1);
+    for(int i=0;i<tabla.size();i++){
+        for(int j=0;j<tabla[0].size();j++){
+            if(j<tabla[0].size()-1){
+                if(tabla[i][j]==tabla[i][j+1] && tabla[i][j]!=' ') omax++; else omax=1;
+                if(max<omax){
+                    max=omax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk(i,j+1-nyer);
+                        nyero_helyek.push_back(ujk);
+                    }
                 }
             }
-        }
-        smax=1;
-        for(int k=0;k<tabla[0].size()-1;k++){
-            if(tabla[j][k]==tabla[j][k+1] && tabla[j][k]!=' ') omax++; else omax=1;
-            if(max<omax){
-                max=omax;
-            }
-            if(max>nyero_helyek.size()){
-                nyero_helyek.clear();
-                for(int nyer=0;nyer<max;nyer++){
-                    K ujk1(j,k+1-nyer);
-                    nyero_helyek.push_back(ujk1);
+
+            for(int ii=0;ii<tabla.size()-1;ii++){
+                if(tabla[ii][j]==tabla[ii+1][j] && tabla[ii][j]!=' ') smax++; else smax=1;
+                if(max<smax){
+                    max=smax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk(ii+1-nyer,j);
+                        nyero_helyek.push_back(ujk);
+                    }
                 }
             }
+            smax=1;
+
+            for(int m=0;(j+m)<tabla[0].size()-1 && (i+m)<tabla.size()-1;m++){
+                if(tabla[i+m][j+m]==tabla[i+m+1][j+m+1] && tabla[i+m][j+m]!=' ') amax++; else amax=1;
+                if(max<amax){
+                    max=amax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk(i+m+1-nyer,j+m+1-nyer);
+                        nyero_helyek.push_back(ujk);
+                    }
+                }
+            }
+            amax=1;
+            for(int m=0;(j+m)<tabla[0].size()-1 && (i-m)>0;m++){
+                if(tabla[i-m][j+m]==tabla[i-m-1][j+m+1] && tabla[i-m][j+m]!=' ') amax++; else amax=1;
+                if(max<amax){
+                    max=amax;
+                }
+                if(max>nyero_helyek.size()){
+                    nyero_helyek.clear();
+                    for(int nyer=0;nyer<max;nyer++){
+                        K ujk(i-m-1+nyer,j+m+1-nyer);
+                        nyero_helyek.push_back(ujk);
+                    }
+                }
+            }
+            amax=1;
         }
         omax=1;
-
-        for(int k=0;k<tabla.size();k++){
-            for(int m=0;(j+m)<tabla[0].size()-1 && (k+m)<tabla.size()-1;m++){
-                if(tabla[j+m][k+m]==tabla[j+m+1][k+m+1] && tabla[j+m][k+m]!=' ') amax++; else amax=1;
-                if(max<amax){
-                    max=amax;
-                }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk1(j+m+1-nyer,k+m+1-nyer);
-                        nyero_helyek.push_back(ujk1);
-                    }
-                }
-            }
-            amax=1;
-            for(int m=0;(j+m)<tabla[0].size()-1 && (k-m)>0;m++){
-                if(tabla[j+m][k-m]==tabla[j+m+1][k-m-1] && tabla[j+m][k-m]!=' ') amax++; else amax=1;
-                if(max<amax){
-                    max=amax;
-                }
-                if(max>nyero_helyek.size()){
-                    nyero_helyek.clear();
-                    for(int nyer=0;nyer<max;nyer++){
-                        K ujk1(j+m+1-nyer,k-m-1+nyer);
-                        nyero_helyek.push_back(ujk1);
-                    }
-                }
-            }
-            amax=1;
-        }
     }
 
-    if(max>=5){
-        for(int ny=0;ny<nyero_helyek.size();ny++){
-            cout << nyero_helyek[ny]._x << " : " << nyero_helyek[ny]._y << endl;
-        }
+    if(max>=nyeroszam){
         if(nyero_helyek.size()>0){
             for(int ny=0;ny<nyero_helyek.size();ny++){
                 tabla[nyero_helyek[ny]._x][nyero_helyek[ny]._y]='L';
             }
         }
-        cout << endl;
         return false;
     }
     else{
@@ -148,7 +140,7 @@ char P::jatek(){
             Jatek jatek(meret._x,meret._y,tabla,uzenet);
             ujhely=jatek.event_loop(meret._x,meret._y);
         }
-        else if(allas()){
+        else if(allas(5)){
             uzenet="A";
             if(kor%2==0) uzenet+="z X "; else uzenet+="z O ";
             uzenet+="karakter kovetkezik.";
@@ -166,7 +158,7 @@ char P::jatek(){
                 }
             }
         }
-        else if(!allas()){
+        else if(!allas(5)){
             uzenet="A";
             if(kor%2==0) uzenet+="z O "; else uzenet+="z X ";
             uzenet+="karakter nyert.";
