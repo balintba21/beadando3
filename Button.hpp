@@ -11,8 +11,7 @@ class Button: public Widget
 {
     string _felirat, _stilus;
     bool _felette,_lenyomva;
-    float _keret;
-    float _betu_meret;
+    float _keret,_betu_meret;
 protected:
     bool _engedelyezve;
 public:
@@ -33,5 +32,5 @@ public:
     virtual void action();
 };
 
-#endif // GOMB_HPP_INCLUDED
+#endif // BUTTON_HPP_INCLUDED
 

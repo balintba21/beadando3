@@ -11,7 +11,6 @@ using namespace std;
 void Jatek::helyem(K hely){
     valasz=hely;
 }
-
 void Jatek::uj_jatek(){
     _fut=false;
     valasz._x=-2;
@@ -22,6 +21,7 @@ void Jatek::kilepes(){
     valasz._x=-1;
     valasz._y=-1;
 }
+
 int Jatek::magassag(int meret){
     int szovegmagassag=ceil(meret*0.90528)+floor(meret*0.21191);
     return szovegmagassag;
@@ -32,19 +32,14 @@ int Jatek::betumeret(float dobozmagassag){
     betu_meret--;
     return betu_meret;
 }
-
 int Jatek::hossz(int meret,float atlaghosz/*(közelítő átlag karakter méret a kiírandó szövegeknél)*/,string szoveg){
     int szoveghossz=ceil(float(szoveg.length())*atlaghosz*meret);
     return szoveghossz;
 }
-
 float Jatek::aranybecslo(int meret,string tipus,string szoveg){
     gout.load_font(tipus,meret,true);
     return float(gout.twidth(szoveg))/hossz(meret,1,szoveg);
 }
-
-
-
 
 K Jatek::event_loop(int XX, int YY){
     gout << color(0,0,0) << move_to(0,0) << box(XX,YY);
@@ -147,17 +142,14 @@ K Jatek::event_loop(int XX, int YY){
 Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool fut){
     _fut=true;
     _betumeret={22,16,22};
+
     int szovegmagassag=magassag(_betumeret[0]);
     int szoveghossz=hossz(_betumeret[0],0.44,uzenet);
-
     Szin szoveg_hatter(222,120,30);
     Szin szoveg_keret(220,110,40);
     Szin szoveg_szoveg(255,255,90);
     vector<Szin> szoveg_szin={szoveg_hatter,szoveg_keret,szoveg_szoveg};
     int szoveg_magassag=5+szovegmagassag+5;
-
-
-
 
 
     int meret=min((YY-(30+szoveg_magassag)),XX-(30+hossz(_betumeret[2],0.3182,"Új játék")))/tabla.size();
@@ -167,11 +159,8 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
     int x_koz=10;
     int y_koz=20+szoveg_magassag;
 
-
     kiir1 = new StaticText(10+(meret*tabla[0].size()-szoveghossz)/2,10,10+szoveghossz+10,szoveg_magassag,uzenet,szoveg_szin);
     widgets.push_back(kiir1);
-
-
 
     Szin gomb_keret(220,110,40);
     Szin gomb_aktiv(255,170,30);
@@ -187,8 +176,16 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
         for(int j=0;j<tabla[i].size();j++){
             jel=tabla[i][j]._ertek;
             bool engedely=false;
-            if(tabla[i][j]._ertek=='X') gomb_szin[4]=gomb_x; else if(tabla[i][j]._ertek=='O') gomb_szin[4]=gomb_o; else engedely=true,gomb_szin[4]=gomb_betu;
-            if(!fut) engedely=false;
+            if(tabla[i][j]._ertek=='X'){
+                gomb_szin[4]=gomb_x;
+            }
+            else if(tabla[i][j]._ertek=='O'){
+                gomb_szin[4]=gomb_o;
+            }
+            else{
+                if(!fut) engedely=false; else engedely=true;
+                gomb_szin[4]=gomb_betu;
+            }
             if(tabla[i][j]._nyert) gomb_szin[3]=gomb_nyert; else gomb_szin[3]=gomb_hatter;
             x=x_koz+i*(meret);
             y=y_koz+j*(meret);
@@ -198,8 +195,6 @@ Jatek::Jatek(int XX,int YY,vector<vector<Amoba_kocka>> tabla,string uzenet,bool 
         }
     }
 
-
-    K hely1(-2,-2);
     gomb_szin[4]=gomb_betu;
     gomb_szin[3]=gomb_hatter;
     keret=2;
