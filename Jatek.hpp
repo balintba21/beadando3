@@ -15,6 +15,9 @@ public:
     K event_loop(int XX, int YY);
     void uj_jatek();
     void kilepes();
+    int magassag(int meret);
+    int hossz(int meret,float atlaghosz,string szoveg);
+    float aranybecslo(int meret,string tipus,string szoveg);
 };
 
 #endif // JATEK_HPP_INCLUDED
