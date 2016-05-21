@@ -1,7 +1,6 @@
 #ifndef KEZELO_HPP_INCLUDED
 #define KEZELO_HPP_INCLUDED
 
-#include "Menu.hpp"
 #include "Jatek.hpp"
 #include "Koordinata.hpp"
 #include "Amobakocka.hpp"
